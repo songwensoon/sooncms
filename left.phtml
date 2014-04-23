@@ -1,0 +1,97 @@
+<?php
+/**
+ * This source file is part of GotCms.
+ *
+ * GotCms is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GotCms is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with GotCms. If not, see <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ *
+ * PHP Version >=5.3
+ *
+ * @category    Gc
+ * @package     Application
+ * @subpackage  Design
+ * @author      Pierre Rambaud (GoT) <pierre.rambaud86@gmail.com>
+ * @license     GNU/LGPL http://www.gnu.org/licenses/lgpl-3.0.html
+ * @link        http://www.got-cms.com
+ */
+ /** @var $this \Zend\View\Renderer\PhpRenderer */
+if($this->admin())
+{
+    $permissions = $this->admin()->getRole()->getUserPermissions();
+}
+$navigationData = $this->navigationData;
+if(!empty($navigationData))
+{
+	$menu = $navigationData['menu'];
+	$navigation = $navigationData['navigation'];
+	$one_menu = $navigationData['one_menu'];
+	$two_menu = $navigationData['two_menu'];
+}
+?>
+<div style="display:none;">
+  <div id="DIV_M1000">
+    <h3 class="f14"><div class="shortcut_menu_bb" onclick="for_menu('1000');"><span class="switchs cu on" title="展开与收缩" id="span_1000"></span> 快捷菜单 </div></h3>
+    <ul id='keyid_1000'>
+      <?php 
+      	if(!empty($menu))
+		{
+      		foreach($menu as $key=>$menua)
+			{
+      	?>
+      <li id="_MP<?php echo $menua['id'];?>" class="sub_menu" name='<?php echo $menua['keyid'];?>'> <a href="javascript:_MP(<?php echo $menua['id'];?>,'<?php echo $menua['url'];?>');" onclick="check_web(<?php echo $menua['id'];?>);" hidefocus="true" style="outline:none;"><?php echo $menua['name'];?></a> </li>
+      <?php 
+      		}
+		}
+	  ?>
+    </ul>
+    <h3 class="shortcut_menu_bb" >版本信息</h3>
+    <div id="_MP2" class="sub_menu" style=" text-indent:10px ;color:#6B6B6B; font-weight:bold; margin-top:10px;">SoonCms软件</div>
+    <div id="_MP2" class="sub_menu" style=" text-indent:20px;color:#6B6B6B" >版本号: 1.0</div>
+    <script src="./backend/js/switch.js"></script> 
+  </div>
+  <?php 
+  	if(!empty($navigation)){
+		foreach($navigation as $k=>$menu){
+	    $one_menu_id = $menu['id'];
+  ?>
+  <div id="DIV_M<?php echo $one_menu_id;?>"> 
+    <?php 
+    $one_menu_row = $one_menu[$one_menu_id];
+    	if(!empty($one_menu_row)){
+    	foreach($one_menu_row as $kk=>$menud){
+			$two_menu_id = $menud['id'];
+    	?>
+    <h3 class="f14"> 
+		<div class="shortcut_menu_bb" onclick='for_menu(<?php echo $one_menu_id;?>);'>  
+			<span class="switchs cu on" title="展开与收缩" id="span_<?php echo $one_menu_id;?>"></span>
+			<?php echo $menud['name'];?>
+		</div>
+    </h3>
+    <ul id="keyid_<?php echo $menud['keyid'];?>">
+      <?php 
+      	   $two_menu_rows = $two_menu[$two_menu_id];
+           if(!empty($two_menu_rows))
+      		{
+      			foreach($two_menu_rows as $menub)
+				{
+      	?>
+      <li id="_MP<?php echo $menub['id'];?>" class="sub_menu" > <a href="javascript:_MP(<?php echo $menub['id'];?>,'<?php echo $menub['url'];?>');" onclick="check_web(<?php echo $menub['id'];?>);" hidefocus="true" style="outline:none;"><?php echo $menub['name'];?></a> </li>
+      <?php }}?>
+    </ul>
+    <?php }}?>
+    <h3 class="shortcut_menu_bb" > <span class="switchs cu on" title="展开与收缩"></span> 版本信息 </h3>
+    <div id="_MP2" class="sub_menu" style=" text-indent:10px ;color:#6B6B6B; font-weight:bold; margin-top:10px;">SoonCsm软件</div>
+    <div id="_MP2" class="sub_menu" style=" text-indent:20px;color:#6B6B6B" >版本号: 1.0</div>
+  </div>
+  <?php }}?>
+</div>
